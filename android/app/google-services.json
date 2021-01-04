@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "83179833583",
+    "firebase_url": "https://groubuy-ec22d.firebaseio.com",
+    "project_id": "groubuy-ec22d",
+    "storage_bucket": "groubuy-ec22d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83179833583:android:efa79b7c63fe3601c6b31a",
+        "android_client_info": {
+          "package_name": "com.devyat.groubuy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83179833583-2lmjufk5q3bkq70fnlvipvka4jrkpb5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJL2WGvuch-d6d0u8z8tRYbFNKiwxHBNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83179833583-2lmjufk5q3bkq70fnlvipvka4jrkpb5f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
