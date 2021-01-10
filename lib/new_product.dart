@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:groubuy/app_util.dart';
+import 'package:groubuy/custom_modal.dart';
 import 'package:groubuy/database_service.dart';
 import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
@@ -15,15 +16,64 @@ class _NewProductState extends State<NewProduct> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descController = TextEditingController();
   TextEditingController _brandController = TextEditingController();
+  TextEditingController _catController = TextEditingController();
 
+  String _chosenCat;
   List _images = [];
   List _imagesUrls = [];
+  List _categories = [];
+  @override
+  void initState() {
+    getCategories();
+    super.initState();
+  }
+
+  getCategories() async {
+    List categories = await DatabaseService.getCategory();
+    setState(() {
+      _categories = categories;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('New Product'),
+        actions: [
+          InkWell(
+            child: Center(child: Text('add category')),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  CustomModal(
+                      child: Container(
+                    color: Colors.white,
+                    width: 300,
+                    height: 300,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: TextField(
+                              controller: _catController,
+                              decoration:
+                                  InputDecoration(hintText: 'new category')),
+                        ),
+                        RaisedButton(
+                          onPressed: () async {
+                            await DatabaseService.addCategory(
+                                _catController.text);
+                            Navigator.pop(context);
+                          },
+                          child: Text('submit'),
+                        )
+                      ],
+                    ),
+                  )));
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Padding(
@@ -37,6 +87,22 @@ class _NewProductState extends State<NewProduct> {
                   padding: 8, hint: 'Description', controller: _descController),
               _myTextField(
                   padding: 8, hint: 'Brand', controller: _brandController),
+              DropdownButton(
+                hint: Text('Singer'),
+                value: _chosenCat,
+                onChanged: (text) async {
+                  setState(() {
+                    _chosenCat = text;
+                  });
+                },
+                items: (_categories)
+                    .map<DropdownMenuItem<dynamic>>((dynamic value) {
+                  return DropdownMenuItem<dynamic>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
               Expanded(
                 child: GridView.builder(
                   itemCount: _images.length + 1,
