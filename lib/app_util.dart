@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AppUtil with ChangeNotifier {
   static Future<File> pickImageFromGallery() async {
@@ -45,5 +45,16 @@ class AppUtil with ChangeNotifier {
     String url = await storageReference.getDownloadURL();
 
     return url;
+  }
+
+  static showToast(String message) {
+    Fluttertoast.showToast(
+      timeInSecForIosWeb: 1,
+      msg: message,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      gravity: ToastGravity.BOTTOM,
+      toastLength: Toast.LENGTH_SHORT,
+    );
   }
 }

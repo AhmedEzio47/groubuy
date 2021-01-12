@@ -18,12 +18,15 @@ dependencies:
   firebase_storage: ^3.0.6
   file_picker: 2.0.0
   random_string: ^2.0.1
-
+  fluttertoast:
+  cached_network_image:
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
+  assets:
+    - assets/images/
 
   uses-material-design: true
 
