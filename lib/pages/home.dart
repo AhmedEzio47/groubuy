@@ -8,7 +8,9 @@ import 'package:groubuy/custom_modal.dart';
 import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/category.dart';
 import 'package:groubuy/models/product.dart';
+import 'package:groubuy/pages/product_page.dart';
 import 'package:groubuy/widgets/cached_image.dart';
+import 'package:groubuy/widgets/drawer.dart';
 
 import 'new_product.dart';
 
@@ -19,7 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Category> _categories = [];
-  Map<Category, List<Product>> _categorySingers = {};
+  Map<Category, List<Product>> _categoryProducts = {};
 
   getCategories() async {
     List<Category> categories = await DatabaseService.getCategories();
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           await DatabaseService.getProductsByCategory(category.name);
       if (mounted) {
         setState(() {
-          _categorySingers.putIfAbsent(category, () => products);
+          _categoryProducts.putIfAbsent(category, () => products);
         });
       }
     }
@@ -54,9 +56,19 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: BuildDrawer(),
+      appBar: AppBar(
+        leading: InkWell(
+            child: Icon(Icons.menu),
+            onTap: () => _scaffoldKey.currentState.openDrawer()),
+        title: Text('GrouBuy'),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _goToNewProductPage,
         child: Icon(Icons.add),
@@ -66,7 +78,7 @@ class _HomePageState extends State<HomePage> {
           shrinkWrap: true,
           itemCount: _categories?.length,
           itemBuilder: (context, index) {
-            return (_categorySingers[_categories[index]]?.length ?? 0) > 0
+            return (_categoryProducts[_categories[index]]?.length ?? 0) > 0
                 ? Container(
                     height: Sizes.productBox + 70,
                     width: MediaQuery.of(context).size.width,
@@ -90,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                             IconButton(
                                 icon: Icon(
                                   Icons.edit,
-                                  color: MyColors.iconLightColor,
+                                  color: MyColors.iconDarkColor,
                                 ),
                                 onPressed: () async {
                                   await editCategory(_categories[index]);
@@ -108,17 +120,27 @@ class _HomePageState extends State<HomePage> {
                                   color: Colors.black26,
                                   child: ListView.builder(
                                       itemCount:
-                                          _categorySingers[_categories[index]]
+                                          _categoryProducts[_categories[index]]
                                                   ?.length ??
                                               0 + 1,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index2) {
                                         return index2 <
-                                                _categorySingers[
+                                                _categoryProducts[
                                                         _categories[index]]
                                                     ?.length
                                             ? InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              ProductPage(
+                                                                product: _categoryProducts[
+                                                                        _categories[
+                                                                            index]]
+                                                                    [index2],
+                                                              )));
+                                                },
                                                 child: Container(
                                                   height: Sizes.productBox,
                                                   width: Sizes.productBox,
@@ -141,14 +163,14 @@ class _HomePageState extends State<HomePage> {
                                                                 10,
                                                         imageShape:
                                                             BoxShape.rectangle,
-                                                        imageUrl: _categorySingers[
+                                                        imageUrl: _categoryProducts[
                                                                     _categories[
                                                                         index]]
                                                                 [index2]
                                                             ?.images[0],
                                                       ),
                                                       Text(
-                                                        _categorySingers[
+                                                        _categoryProducts[
                                                                     _categories[
                                                                         index]]
                                                                 [index2]
@@ -162,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                               )
-                                            : _categorySingers[
+                                            : _categoryProducts[
                                                             _categories[index]]
                                                         ?.length ==
                                                     15

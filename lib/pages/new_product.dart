@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:groubuy/app_util.dart';
 import 'package:groubuy/custom_modal.dart';
 import 'package:groubuy/database_service.dart';
+import 'package:groubuy/models/category.dart';
 import 'package:path/path.dart' as path;
 import 'package:random_string/random_string.dart';
 
@@ -21,9 +22,12 @@ class _NewProductState extends State<NewProduct> {
   String _chosenCat;
   List _images = [];
   List _imagesUrls = [];
-  List _categories = [];
+  List<String> _categories = [];
 
   double _gridHeight;
+
+  int _descMaxLines = 15;
+  int _descMinLines = 5;
   @override
   void initState() {
     getCategories();
@@ -31,15 +35,17 @@ class _NewProductState extends State<NewProduct> {
   }
 
   getCategories() async {
-    List categories = await DatabaseService.getCategories();
-    setState(() {
-      _categories = categories;
+    List<Category> categories = await DatabaseService.getCategories();
+    categories.forEach((element) {
+      setState(() {
+        _categories.add(element.name);
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _gridHeight = MediaQuery.of(context).size.height / 2.5;
+    _gridHeight = MediaQuery.of(context).size.height / 4;
     return Scaffold(
       appBar: AppBar(
         title: Text('New Product'),
@@ -92,7 +98,9 @@ class _NewProductState extends State<NewProduct> {
                   _myTextField(
                       padding: 8,
                       hint: 'Description',
-                      controller: _descController),
+                      controller: _descController,
+                      maxLines: _descMaxLines,
+                      minLines: _descMinLines),
                   _myTextField(
                       padding: 8, hint: 'Brand', controller: _brandController),
                   DropdownButton(
@@ -164,10 +172,14 @@ class _NewProductState extends State<NewProduct> {
   _myTextField(
       {double padding = 8,
       String hint = 'Hint',
-      TextEditingController controller}) {
+      TextEditingController controller,
+      int maxLines = 1,
+      int minLines = 1}) {
     return Padding(
       padding: EdgeInsets.all(padding),
       child: TextField(
+        minLines: minLines,
+        maxLines: maxLines,
         controller: controller,
         decoration: InputDecoration(hintText: hint),
       ),

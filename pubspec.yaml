@@ -20,6 +20,7 @@ dependencies:
   random_string: ^2.0.1
   fluttertoast:
   cached_network_image:
+  carousel_slider: ^2.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
