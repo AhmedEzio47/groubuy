@@ -39,4 +39,15 @@ class DatabaseService {
         productSnapshot.documents.map((doc) => Product.fromDoc(doc)).toList();
     return products;
   }
+
+  static addOffer(String id, String productId, String sellerId, int minAmount,
+      double discount, int buyers) async {
+    await Firestore.instance.collection('offers').document(id).setData({
+      'seller_id': sellerId,
+      'product_id': productId,
+      'buyers': buyers,
+      'discount': discount,
+      'min_amount': minAmount
+    });
+  }
 }

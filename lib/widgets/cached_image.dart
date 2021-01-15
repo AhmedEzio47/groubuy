@@ -6,6 +6,7 @@ class CachedImage extends StatefulWidget {
   final BoxShape imageShape;
   final double width;
   final double height;
+  final BoxFit fit;
   final String defaultAssetImage;
 
   const CachedImage({
@@ -14,6 +15,7 @@ class CachedImage extends StatefulWidget {
     this.imageShape,
     this.width,
     this.height,
+    this.fit,
     this.defaultAssetImage,
   }) : super(key: key);
 
@@ -38,14 +40,14 @@ class _CachedImageState extends State<CachedImage> {
       ),
       child: imageUrl != null
           ? CachedNetworkImage(
+              fit: widget.fit,
               imageUrl: imageUrl,
               imageBuilder: (context, imageProvider) => Container(
                 width: width,
                 height: height,
                 decoration: BoxDecoration(
                   shape: boxShape,
-                  image:
-                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                  image: DecorationImage(image: imageProvider, fit: widget.fit),
                 ),
               ),
               placeholder: (context, loggedInProfileImageURL) => Center(
@@ -63,7 +65,7 @@ class _CachedImageState extends State<CachedImage> {
               decoration: BoxDecoration(
                 shape: boxShape,
                 image: DecorationImage(
-                    image: AssetImage(defaultAssetImage), fit: BoxFit.cover),
+                    image: AssetImage(defaultAssetImage), fit: widget.fit),
               ),
             ),
     );

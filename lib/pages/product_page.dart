@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/strings.dart';
 import 'package:groubuy/models/product.dart';
 import 'package:groubuy/widgets/cached_image.dart';
+
+import 'new_offer.dart';
 
 class ProductPage extends StatefulWidget {
   final Product product;
@@ -35,6 +38,7 @@ class _ProductPageState extends State<ProductPage> {
               itemCount: widget.product.images.length,
               itemBuilder: (context, index) {
                 return CachedImage(
+                  fit: BoxFit.fitHeight,
                   width: MediaQuery.of(context).size.width,
                   height: 300,
                   imageShape: BoxShape.rectangle,
@@ -121,6 +125,27 @@ class _ProductPageState extends State<ProductPage> {
               ),
             )
           ],
+        ),
+      ),
+      floatingActionButton: Container(
+        height: 50,
+        width: 100,
+        child: RawMaterialButton(
+          fillColor: MyColors.primaryColor,
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return NewOffer(
+                productId: widget.product.id,
+              );
+            }));
+          },
+          child: Text(
+            '+ Add Offer',
+            style: TextStyle(color: MyColors.textLightColor),
+          ),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              side: BorderSide(color: MyColors.primaryColor)),
         ),
       ),
     );
