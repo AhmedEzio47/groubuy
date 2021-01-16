@@ -2,8 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/strings.dart';
+import 'package:groubuy/database_service.dart';
+import 'package:groubuy/models/offer.dart';
 import 'package:groubuy/models/product.dart';
 import 'package:groubuy/widgets/cached_image.dart';
+import 'package:groubuy/widgets/offer_item.dart';
 
 import 'new_offer.dart';
 
@@ -21,7 +24,17 @@ class _ProductPageState extends State<ProductPage> {
   int _currentImage = 0;
   @override
   void initState() {
+    getOffers();
     super.initState();
+  }
+
+  List<Offer> _offers = [];
+  getOffers() async {
+    List<Offer> offers =
+        await DatabaseService.getAvailableOffersByProduct(widget.product.id);
+    setState(() {
+      _offers = offers;
+    });
   }
 
   @override
@@ -123,6 +136,15 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 ],
               ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: _offers.length,
+                  itemBuilder: (context, index) {
+                    return OfferItem(
+                      offer: _offers[index],
+                    );
+                  }),
             )
           ],
         ),

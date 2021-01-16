@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:groubuy/models/offer.dart';
 
 import 'constants/constants.dart';
 import 'models/category.dart';
@@ -40,14 +41,40 @@ class DatabaseService {
     return products;
   }
 
-  static addOffer(String id, String productId, String sellerId, int minAmount,
-      double discount, int buyers) async {
+  static addOffer(
+      String id,
+      String productId,
+      String sellerId,
+      int minAmount,
+      double price,
+      double discount,
+      int buyers,
+      bool available,
+      DateTime expireDate) async {
     await Firestore.instance.collection('offers').document(id).setData({
       'seller_id': sellerId,
       'product_id': productId,
       'buyers': buyers,
+      'price': price,
       'discount': discount,
-      'min_amount': minAmount
+      'min_amount': minAmount,
+      'available': available,
+      'expire_date': expireDate != null ? Timestamp.fromDate(expireDate) : null
     });
+  }
+
+  static getProductById(String id) async {
+    DocumentSnapshot productSnapshot = await productsRef.document(id).get();
+    return Product.fromDoc(productSnapshot);
+  }
+
+  static getAvailableOffersByProduct(String productId) async {
+    QuerySnapshot offersSnapshot = await offersRef
+        .where('product_id', isEqualTo: productId)
+        .where('available', isEqualTo: true)
+        .getDocuments();
+    List<Offer> offers =
+        offersSnapshot.documents.map((doc) => Offer.fromDoc(doc)).toList();
+    return offers;
   }
 }
