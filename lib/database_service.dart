@@ -46,15 +46,15 @@ class DatabaseService {
       String productId,
       String sellerId,
       int minAmount,
-      double price,
+      String price,
       double discount,
-      int buyers,
+      int subscribers,
       bool available,
       DateTime expireDate) async {
     await Firestore.instance.collection('offers').document(id).setData({
       'seller_id': sellerId,
       'product_id': productId,
-      'buyers': buyers,
+      'subscribers': subscribers,
       'price': price,
       'discount': discount,
       'min_amount': minAmount,

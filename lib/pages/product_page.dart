@@ -138,13 +138,19 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                  itemCount: _offers.length,
-                  itemBuilder: (context, index) {
-                    return OfferItem(
-                      offer: _offers[index],
-                    );
-                  }),
+              child: GridView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: _offers.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 1.4,
+                  crossAxisCount: 2,
+                ),
+                itemBuilder: (context, index) {
+                  return OfferItem(
+                    offer: _offers[index],
+                  );
+                },
+              ),
             )
           ],
         ),

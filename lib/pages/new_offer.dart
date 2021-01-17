@@ -195,7 +195,7 @@ class _NewOfferState extends State<NewOffer> {
         widget.productId,
         Constants.currentUserId,
         int.parse(_minAmountController.text),
-        double.parse(_priceController.text),
+        _priceController.text,
         double.parse(_discountController.text),
         0,
         _isAvailable,

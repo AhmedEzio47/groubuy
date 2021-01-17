@@ -21,6 +21,7 @@ dependencies:
   fluttertoast:
   cached_network_image:
   carousel_slider: ^2.3.1
+  percent_indicator: ^2.1.8
 dev_dependencies:
   flutter_test:
     sdk: flutter
