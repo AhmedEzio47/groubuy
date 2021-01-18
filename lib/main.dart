@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:groubuy/pages/home.dart';
+import 'package:groubuy/pages/seller_home.dart';
+import 'package:groubuy/pages/user_home.dart';
 
 void main() {
   runApp(MyApp());
 }
 
+enum UserTypes { SELLER, BUYER }
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  UserTypes _userType = UserTypes.BUYER;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: _userType == UserTypes.BUYER ? UserHomePage() : SellerHomePage(),
     );
   }
 }

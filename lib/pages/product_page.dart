@@ -1,12 +1,10 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
-import 'package:groubuy/constants/strings.dart';
 import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/offer.dart';
 import 'package:groubuy/models/product.dart';
-import 'package:groubuy/widgets/cached_image.dart';
 import 'package:groubuy/widgets/offer_item.dart';
+import 'package:groubuy/widgets/product_item.dart';
 
 import 'new_offer.dart';
 
@@ -19,9 +17,6 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  CarouselController buttonCarouselController;
-
-  int _currentImage = 0;
   @override
   void initState() {
     getOffers();
@@ -43,117 +38,27 @@ class _ProductPageState extends State<ProductPage> {
       appBar: AppBar(
         title: Text(widget.product.name),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CarouselSlider.builder(
-              itemCount: widget.product.images.length,
+      body: Column(
+        children: [
+          ProductItem(
+            product: widget.product,
+          ),
+          Expanded(
+            child: GridView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: _offers.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 1.4,
+                crossAxisCount: 2,
+              ),
               itemBuilder: (context, index) {
-                return CachedImage(
-                  fit: BoxFit.fitHeight,
-                  width: MediaQuery.of(context).size.width,
-                  height: 300,
-                  imageShape: BoxShape.rectangle,
-                  imageUrl: widget.product.images[index],
-                  defaultAssetImage: Strings.default_product_image,
+                return OfferItem(
+                  offer: _offers[index],
                 );
               },
-              carouselController: buttonCarouselController,
-              options: CarouselOptions(
-                onPageChanged: (page, x) {
-                  setState(() {
-                    _currentImage = page;
-                  });
-                },
-                autoPlay: false,
-                enlargeCenterPage: true,
-                viewportFraction: 0.9,
-                aspectRatio: 2.0,
-                initialPage: 0,
-              ),
             ),
-            SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: 10,
-              width: 15 * widget.product.images.length.toDouble(),
-              child: Center(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Icon(
-                      Icons.fiber_manual_record,
-                      color:
-                          index == _currentImage ? Colors.black : Colors.grey,
-                      size: 15,
-                    );
-                  },
-                  itemCount: widget.product.images.length,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              widget.product.name,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Description: ',
-                    style: TextStyle(),
-                  ),
-                  Text(
-                    widget.product.description,
-                    style: TextStyle(),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              indent: 20,
-              endIndent: 20,
-              thickness: 1,
-              color: Colors.grey.shade400,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Brand: ',
-                    style: TextStyle(),
-                  ),
-                  Text(
-                    widget.product.brand,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: GridView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: _offers.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 1.4,
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (context, index) {
-                  return OfferItem(
-                    offer: _offers[index],
-                  );
-                },
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
       floatingActionButton: Container(
         height: 50,

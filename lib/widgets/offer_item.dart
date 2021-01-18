@@ -33,7 +33,6 @@ class _OfferItemState extends State<OfferItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
       color: Color.fromRGBO(254,
           (254 * ((100 - widget.offer.discount) / 100)).ceil() - 50, 0, 1.0),
       child: Column(
@@ -79,7 +78,7 @@ class _OfferItemState extends State<OfferItem> {
           ),
           LinearPercentIndicator(
             progressColor: MyColors.primaryColor,
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.white,
             percent: widget.offer.subscribers.toDouble() /
                 widget.offer.minAmount.toDouble(),
           ),

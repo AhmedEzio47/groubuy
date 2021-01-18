@@ -77,4 +77,12 @@ class DatabaseService {
         offersSnapshot.documents.map((doc) => Offer.fromDoc(doc)).toList();
     return offers;
   }
+
+  static getAvailableOffers() async {
+    QuerySnapshot offersSnapshot =
+        await offersRef.where('available', isEqualTo: true).getDocuments();
+    List<Offer> offers =
+        offersSnapshot.documents.map((doc) => Offer.fromDoc(doc)).toList();
+    return offers;
+  }
 }

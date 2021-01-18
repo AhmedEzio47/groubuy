@@ -14,12 +14,12 @@ import 'package:groubuy/widgets/drawer.dart';
 
 import 'new_product.dart';
 
-class HomePage extends StatefulWidget {
+class SellerHomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _SellerHomePageState createState() => _SellerHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SellerHomePageState extends State<SellerHomePage> {
   List<Category> _categories = [];
   Map<Category, List<Product>> _categoryProducts = {};
 
@@ -69,9 +69,20 @@ class _HomePageState extends State<HomePage> {
             onTap: () => _scaffoldKey.currentState.openDrawer()),
         title: Text('GrouBuy'),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _goToNewProductPage,
-        child: Icon(Icons.add),
+      floatingActionButton: Container(
+        height: 50,
+        width: 110,
+        child: RawMaterialButton(
+          fillColor: MyColors.primaryColor,
+          onPressed: _goToNewProductPage,
+          child: Text(
+            '+ Add Product',
+            style: TextStyle(color: MyColors.textLightColor),
+          ),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              side: BorderSide(color: MyColors.primaryColor)),
+        ),
       ),
       body: ListView.builder(
           scrollDirection: Axis.vertical,
@@ -176,8 +187,7 @@ class _HomePageState extends State<HomePage> {
                                                                 [index2]
                                                             ?.name,
                                                         style: TextStyle(
-                                                          color: Colors
-                                                              .grey.shade300,
+                                                          color: Colors.black,
                                                         ),
                                                       ),
                                                     ],
