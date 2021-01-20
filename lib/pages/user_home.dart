@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/models/offer.dart';
+import 'package:groubuy/pages/new_wish.dart';
 import 'package:groubuy/widgets/offer_item2.dart';
 
 import '../database_service.dart';
@@ -48,6 +50,27 @@ class _UserHomePageState extends State<UserHomePage> {
           );
         },
       ),
+      floatingActionButton: Container(
+        height: 50,
+        width: 110,
+        child: RawMaterialButton(
+          fillColor: MyColors.primaryColor,
+          onPressed: _goToNewWishPage,
+          child: Text(
+            '+ Add Wish',
+            style: TextStyle(color: MyColors.textLightColor),
+          ),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              side: BorderSide(color: MyColors.primaryColor)),
+        ),
+      ),
     );
+  }
+
+  _goToNewWishPage() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return NewWish();
+    }));
   }
 }

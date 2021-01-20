@@ -63,6 +63,19 @@ class DatabaseService {
     });
   }
 
+  static addWish(
+    String id,
+    String productId,
+    int subscribers,
+    bool available,
+  ) async {
+    await Firestore.instance.collection('offers').document(id).setData({
+      'product_id': productId,
+      'subscribers': subscribers,
+      'available': available,
+    });
+  }
+
   static getProductById(String id) async {
     DocumentSnapshot productSnapshot = await productsRef.document(id).get();
     return Product.fromDoc(productSnapshot);

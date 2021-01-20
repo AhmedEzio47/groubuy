@@ -48,12 +48,12 @@ class _OfferItem2State extends State<OfferItem2> {
               height: 100,
               width: 100,
               fit: BoxFit.contain,
-              imageUrl: _product?.images[0],
+              imageUrl: _product?.images == null ? null : _product?.images[0],
               defaultAssetImage: Strings.default_product_image,
               imageShape: BoxShape.rectangle,
             ),
             Text(
-              _product.name,
+              _product?.name ?? '',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
