@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
+import 'package:groubuy/constants/constants.dart';
 import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/offer.dart';
 import 'package:groubuy/models/product.dart';
+import 'package:groubuy/widgets/capsule_button.dart';
 import 'package:groubuy/widgets/offer_item.dart';
 import 'package:groubuy/widgets/product_item.dart';
 
@@ -60,27 +62,27 @@ class _ProductPageState extends State<ProductPage> {
           )
         ],
       ),
-      floatingActionButton: Container(
-        height: 50,
-        width: 100,
-        child: RawMaterialButton(
-          fillColor: MyColors.primaryColor,
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return NewOffer(
-                productId: widget.product.id,
-              );
-            }));
-          },
-          child: Text(
-            '+ Add Offer',
-            style: TextStyle(color: MyColors.textLightColor),
-          ),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              side: BorderSide(color: MyColors.primaryColor)),
-        ),
-      ),
+      floatingActionButton: Constants.userType == UserTypes.SELLER
+          ? CapsuleButton(
+              color: MyColors.primaryColor,
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return NewOffer(
+                    productId: widget.product.id,
+                  );
+                }));
+              },
+              text: '+ Add Offer',
+              textColor: MyColors.textLightColor,
+            )
+          : CapsuleButton(
+              color: MyColors.primaryColor,
+              onPressed: () async {
+                await DatabaseService.addWish(widget.product.id);
+              },
+              text: '+ Add Wish',
+              textColor: MyColors.textLightColor,
+            ),
     );
   }
 }

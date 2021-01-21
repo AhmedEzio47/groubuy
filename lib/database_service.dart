@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:groubuy/app_util.dart';
 import 'package:groubuy/models/offer.dart';
 
 import 'constants/constants.dart';
@@ -28,6 +29,16 @@ class DatabaseService {
     List<Category> categories =
         snapshot.documents.map((doc) => Category.fromDoc(doc)).toList();
     return categories;
+  }
+
+  static Future<List<Product>> getProducts() async {
+    QuerySnapshot productSnapshot = await productsRef
+        .orderBy('name', descending: false)
+        .limit(20)
+        .getDocuments();
+    List<Product> products =
+        productSnapshot.documents.map((doc) => Product.fromDoc(doc)).toList();
+    return products;
   }
 
   static Future<List<Product>> getProductsByCategory(String category) async {
@@ -63,17 +74,19 @@ class DatabaseService {
     });
   }
 
-  static addWish(
-    String id,
-    String productId,
-    int subscribers,
-    bool available,
-  ) async {
-    await Firestore.instance.collection('offers').document(id).setData({
+  static addWish(String productId) async {
+    List<Offer> offers =
+        await DatabaseService.getAvailableOffersByProduct(productId);
+    if (offers.length > 0) {
+      AppUtil.showToast('Offers exist on this product');
+      return;
+    }
+    await Firestore.instance.collection('wishes').add({
       'product_id': productId,
-      'subscribers': subscribers,
-      'available': available,
+      'subscribers': 0,
+      'available': true,
     });
+    AppUtil.showToast('Wish Added');
   }
 
   static getProductById(String id) async {

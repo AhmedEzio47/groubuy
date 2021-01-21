@@ -10,6 +10,7 @@ import 'package:groubuy/models/category.dart';
 import 'package:groubuy/models/product.dart';
 import 'package:groubuy/pages/product_page.dart';
 import 'package:groubuy/widgets/cached_image.dart';
+import 'package:groubuy/widgets/capsule_button.dart';
 import 'package:groubuy/widgets/drawer.dart';
 
 import 'new_product.dart';
@@ -69,20 +70,11 @@ class _SellerHomePageState extends State<SellerHomePage> {
             onTap: () => _scaffoldKey.currentState.openDrawer()),
         title: Text('GrouBuy'),
       ),
-      floatingActionButton: Container(
-        height: 50,
-        width: 110,
-        child: RawMaterialButton(
-          fillColor: MyColors.primaryColor,
-          onPressed: _goToNewProductPage,
-          child: Text(
-            '+ Add Product',
-            style: TextStyle(color: MyColors.textLightColor),
-          ),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              side: BorderSide(color: MyColors.primaryColor)),
-        ),
+      floatingActionButton: CapsuleButton(
+        color: MyColors.primaryColor,
+        text: '+ Add Product',
+        textColor: MyColors.textLightColor,
+        onPressed: _goToNewProductPage,
       ),
       body: ListView.builder(
           scrollDirection: Axis.vertical,
@@ -91,7 +83,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
           itemBuilder: (context, index) {
             return (_categoryProducts[_categories[index]]?.length ?? 0) > 0
                 ? Container(
-                    height: Sizes.productBox + 70,
+                    height: Sizes.product_box + 70,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,8 +145,8 @@ class _SellerHomePageState extends State<SellerHomePage> {
                                                               )));
                                                 },
                                                 child: Container(
-                                                  height: Sizes.productBox,
-                                                  width: Sizes.productBox,
+                                                  height: Sizes.product_box,
+                                                  width: Sizes.product_box,
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -167,10 +159,10 @@ class _SellerHomePageState extends State<SellerHomePage> {
                                                         defaultAssetImage: Strings
                                                             .default_product_image,
                                                         width:
-                                                            Sizes.productBox -
+                                                            Sizes.product_box -
                                                                 10,
                                                         height:
-                                                            Sizes.productBox -
+                                                            Sizes.product_box -
                                                                 10,
                                                         imageShape:
                                                             BoxShape.rectangle,

@@ -5,6 +5,9 @@ final categoriesRef = firestore.collection('categories');
 final productsRef = firestore.collection('products');
 final offersRef = firestore.collection('offers');
 
+enum UserTypes { SELLER, BUYER }
+
 class Constants {
   static String currentUserId;
+  static UserTypes userType = UserTypes.BUYER;
 }

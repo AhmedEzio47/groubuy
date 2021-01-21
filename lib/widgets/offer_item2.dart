@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
+import 'package:groubuy/constants/sizes.dart';
 import 'package:groubuy/constants/strings.dart';
 import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/offer.dart';
@@ -45,8 +46,8 @@ class _OfferItem2State extends State<OfferItem2> {
         child: Column(
           children: [
             CachedImage(
-              height: 100,
-              width: 100,
+              height: Sizes().setHeight(context, .15),
+              width: Sizes().setWidth(context, .2),
               fit: BoxFit.contain,
               imageUrl: _product?.images == null ? null : _product?.images[0],
               defaultAssetImage: Strings.default_product_image,

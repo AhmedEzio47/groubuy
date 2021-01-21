@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/strings.dart';
 import 'package:groubuy/pages/new_product.dart';
+import 'package:groubuy/pages/products.dart';
 
 class BuildDrawer extends StatefulWidget {
   @override
@@ -61,10 +62,12 @@ class _BuildDrawerState extends State<BuildDrawer> {
           ),
           ListTile(
             onTap: () async {
-              Navigator.of(context).pushNamed('/downloads');
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return Products();
+              }));
             },
             title: Text(
-              'Downloads',
+              'Products',
               style: TextStyle(
                 color: MyColors.primaryColor,
               ),
