@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groubuy/constants/constants.dart';
-import 'package:groubuy/pages/seller_home.dart';
-import 'package:groubuy/pages/user_home.dart';
+import 'package:groubuy/pages/app_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,9 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Constants.userType == UserTypes.BUYER
-          ? UserHomePage()
-          : SellerHomePage(),
+      home: AppPage(),
     );
   }
 }

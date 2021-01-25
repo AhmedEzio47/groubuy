@@ -40,6 +40,8 @@ class _OfferPageState extends State<OfferPage> {
         body: Column(
           children: [
             ProductItem(
+              width: MediaQuery.of(context).size.width,
+              height: 350,
               product: _product,
             ),
             SizedBox(

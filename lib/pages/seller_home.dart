@@ -3,15 +3,14 @@ import 'package:groubuy/app_util.dart';
 import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/constants.dart';
 import 'package:groubuy/constants/sizes.dart';
-import 'package:groubuy/constants/strings.dart';
 import 'package:groubuy/custom_modal.dart';
 import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/category.dart';
 import 'package:groubuy/models/product.dart';
 import 'package:groubuy/pages/product_page.dart';
-import 'package:groubuy/widgets/cached_image.dart';
 import 'package:groubuy/widgets/capsule_button.dart';
 import 'package:groubuy/widgets/drawer.dart';
+import 'package:groubuy/widgets/product_item.dart';
 
 import 'new_product.dart';
 
@@ -65,17 +64,24 @@ class _SellerHomePageState extends State<SellerHomePage> {
       key: _scaffoldKey,
       drawer: BuildDrawer(),
       appBar: AppBar(
-        leading: InkWell(
-            child: Icon(Icons.menu),
-            onTap: () => _scaffoldKey.currentState.openDrawer()),
-        title: Text('GrouBuy'),
+        leading: Constants.userType == UserTypes.SELLER
+            ? InkWell(
+                child: Icon(Icons.menu),
+                onTap: () => _scaffoldKey.currentState.openDrawer())
+            : InkWell(
+                child: Icon(Icons.arrow_back),
+                onTap: () => Navigator.of(context).pop()),
+        title: Text(
+            Constants.userType == UserTypes.SELLER ? 'GrouBuy' : 'Products'),
       ),
-      floatingActionButton: CapsuleButton(
-        color: MyColors.primaryColor,
-        text: '+ Add Product',
-        textColor: MyColors.textLightColor,
-        onPressed: _goToNewProductPage,
-      ),
+      floatingActionButton: Constants.userType == UserTypes.SELLER
+          ? CapsuleButton(
+              color: MyColors.primaryColor,
+              text: '+ Add Product',
+              textColor: MyColors.textLightColor,
+              onPressed: _goToNewProductPage,
+            )
+          : Container(),
       body: ListView.builder(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
@@ -83,7 +89,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
           itemBuilder: (context, index) {
             return (_categoryProducts[_categories[index]]?.length ?? 0) > 0
                 ? Container(
-                    height: Sizes.product_box + 70,
+                    height: Sizes.small_product_box + 70,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,14 +108,16 @@ class _SellerHomePageState extends State<SellerHomePage> {
                             SizedBox(
                               width: 5,
                             ),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: MyColors.iconDarkColor,
-                                ),
-                                onPressed: () async {
-                                  await editCategory(_categories[index]);
-                                })
+                            Constants.userType == UserTypes.SELLER
+                                ? IconButton(
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: MyColors.iconDarkColor,
+                                    ),
+                                    onPressed: () async {
+                                      await editCategory(_categories[index]);
+                                    })
+                                : Container()
                           ],
                         ),
                         Expanded(
@@ -144,46 +152,17 @@ class _SellerHomePageState extends State<SellerHomePage> {
                                                                     [index2],
                                                               )));
                                                 },
-                                                child: Container(
-                                                  height: Sizes.product_box,
-                                                  width: Sizes.product_box,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      CachedImage(
-                                                        defaultAssetImage: Strings
-                                                            .default_product_image,
-                                                        width:
-                                                            Sizes.product_box -
-                                                                10,
-                                                        height:
-                                                            Sizes.product_box -
-                                                                10,
-                                                        imageShape:
-                                                            BoxShape.rectangle,
-                                                        imageUrl: _categoryProducts[
-                                                                    _categories[
-                                                                        index]]
-                                                                [index2]
-                                                            ?.images[0],
-                                                      ),
-                                                      Text(
-                                                        _categoryProducts[
-                                                                    _categories[
-                                                                        index]]
-                                                                [index2]
-                                                            ?.name,
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                child: ProductItem(
+                                                  width:
+                                                      Sizes.small_product_box +
+                                                          50,
+                                                  height: Sizes.mid_product_box,
+                                                  showBrand: false,
+                                                  showDescription: false,
+                                                  showSlideShow: false,
+                                                  product: _categoryProducts[
+                                                          _categories[index]]
+                                                      [index2],
                                                 ),
                                               )
                                             : _categoryProducts[

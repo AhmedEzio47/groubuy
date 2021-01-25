@@ -43,6 +43,8 @@ class _ProductPageState extends State<ProductPage> {
       body: Column(
         children: [
           ProductItem(
+            width: MediaQuery.of(context).size.width,
+            height: 350,
             product: widget.product,
           ),
           Expanded(

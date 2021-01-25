@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/strings.dart';
 import 'package:groubuy/pages/new_product.dart';
-import 'package:groubuy/pages/products.dart';
+import 'package:groubuy/pages/seller_home.dart';
 
 class BuildDrawer extends StatefulWidget {
   @override
@@ -63,7 +63,7 @@ class _BuildDrawerState extends State<BuildDrawer> {
           ListTile(
             onTap: () async {
               Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return Products();
+                return SellerHomePage();
               }));
             },
             title: Text(
