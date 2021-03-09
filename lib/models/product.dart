@@ -15,14 +15,15 @@ class Product {
       this.category,
       this.images,
       this.id});
+
   factory Product.fromDoc(DocumentSnapshot doc) {
     return Product(
-      id: doc.documentID,
-      name: doc['name'],
-      description: doc['description'],
-      brand: doc['brand'],
-      category: doc['category'],
-      images: doc['images'],
+      id: doc.id,
+      name: doc.data()['name'],
+      description: doc.data()['description'],
+      brand: doc.data()['brand'],
+      category: doc.data()['category'],
+      images: doc.data()['images'],
     );
   }
 }

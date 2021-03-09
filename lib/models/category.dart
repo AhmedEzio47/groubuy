@@ -7,6 +7,6 @@ class Category {
   Category({this.name, this.id});
 
   factory Category.fromDoc(DocumentSnapshot doc) {
-    return Category(id: doc.documentID, name: doc['name']);
+    return Category(id: doc.id, name: doc.data()['name']);
   }
 }

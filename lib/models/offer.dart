@@ -24,14 +24,14 @@ class Offer {
 
   factory Offer.fromDoc(DocumentSnapshot doc) {
     return Offer(
-        id: doc.documentID,
-        sellerId: doc['seller_id'],
-        productId: doc['product_id'],
-        subscribers: doc['subscribers'],
-        discount: doc['discount'],
-        minAmount: doc['min_amount'],
-        price: doc['price'],
-        available: doc['available'],
-        expireDate: doc['expire_date']);
+        id: doc.id,
+        sellerId: doc.data()['seller_id'],
+        productId: doc.data()['product_id'],
+        subscribers: doc.data()['subscribers'],
+        discount: doc.data()['discount'],
+        minAmount: doc.data()['min_amount'],
+        price: doc.data()['price'],
+        available: doc.data()['available'],
+        expireDate: doc.data()['expire_date']);
   }
 }

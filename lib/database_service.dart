@@ -9,7 +9,7 @@ import 'models/product.dart';
 class DatabaseService {
   static addProduct(String id, String name, String desc, String brand,
       String category, List images) async {
-    await Firestore.instance.collection('products').document(id).setData({
+    await firestore.collection('products').doc(id).set({
       'name': name,
       'description': desc,
       'brand': brand,
@@ -19,25 +19,23 @@ class DatabaseService {
   }
 
   static addCategory(String cat) async {
-    await Firestore.instance.collection('categories').add({
+    await firestore.collection('categories').add({
       'name': cat,
     });
   }
 
   static Future<List<Category>> getCategories() async {
-    QuerySnapshot snapshot = await categoriesRef.getDocuments();
+    QuerySnapshot snapshot = await categoriesRef.get();
     List<Category> categories =
-        snapshot.documents.map((doc) => Category.fromDoc(doc)).toList();
+        snapshot.docs.map((doc) => Category.fromDoc(doc)).toList();
     return categories;
   }
 
   static Future<List<Product>> getProducts() async {
-    QuerySnapshot productSnapshot = await productsRef
-        .orderBy('name', descending: false)
-        .limit(20)
-        .getDocuments();
+    QuerySnapshot productSnapshot =
+        await productsRef.orderBy('name', descending: false).limit(20).get();
     List<Product> products =
-        productSnapshot.documents.map((doc) => Product.fromDoc(doc)).toList();
+        productSnapshot.docs.map((doc) => Product.fromDoc(doc)).toList();
     return products;
   }
 
@@ -46,9 +44,9 @@ class DatabaseService {
         .where('category', isEqualTo: category)
         .orderBy('name', descending: false)
         .limit(15)
-        .getDocuments();
+        .get();
     List<Product> products =
-        productSnapshot.documents.map((doc) => Product.fromDoc(doc)).toList();
+        productSnapshot.docs.map((doc) => Product.fromDoc(doc)).toList();
     return products;
   }
 
@@ -62,7 +60,7 @@ class DatabaseService {
       int subscribers,
       bool available,
       DateTime expireDate) async {
-    await Firestore.instance.collection('offers').document(id).setData({
+    await firestore.collection('offers').doc(id).set({
       'seller_id': sellerId,
       'product_id': productId,
       'subscribers': subscribers,
@@ -81,7 +79,7 @@ class DatabaseService {
       AppUtil.showToast('Offers exist on this product');
       return;
     }
-    await Firestore.instance.collection('wishes').add({
+    await firestore.collection('wishes').add({
       'product_id': productId,
       'subscribers': 0,
       'available': true,
@@ -90,7 +88,7 @@ class DatabaseService {
   }
 
   static getProductById(String id) async {
-    DocumentSnapshot productSnapshot = await productsRef.document(id).get();
+    DocumentSnapshot productSnapshot = await productsRef.doc(id).get();
     return Product.fromDoc(productSnapshot);
   }
 
@@ -98,17 +96,17 @@ class DatabaseService {
     QuerySnapshot offersSnapshot = await offersRef
         .where('product_id', isEqualTo: productId)
         .where('available', isEqualTo: true)
-        .getDocuments();
+        .get();
     List<Offer> offers =
-        offersSnapshot.documents.map((doc) => Offer.fromDoc(doc)).toList();
+        offersSnapshot.docs.map((doc) => Offer.fromDoc(doc)).toList();
     return offers;
   }
 
   static getAvailableOffers() async {
     QuerySnapshot offersSnapshot =
-        await offersRef.where('available', isEqualTo: true).getDocuments();
+        await offersRef.where('available', isEqualTo: true).get();
     List<Offer> offers =
-        offersSnapshot.documents.map((doc) => Offer.fromDoc(doc)).toList();
+        offersSnapshot.docs.map((doc) => Offer.fromDoc(doc)).toList();
     return offers;
   }
 }

@@ -27,20 +27,19 @@ class AppUtil with ChangeNotifier {
       File file, BuildContext context, String path) async {
     if (file == null) return '';
 
-    StorageReference storageReference =
-        FirebaseStorage.instance.ref().child(path);
-    print('storage path: $path');
-    StorageUploadTask uploadTask;
+    Reference storageReference = FirebaseStorage.instance.ref().child(path);
 
+    UploadTask uploadTask;
     uploadTask = storageReference.putFile(file);
-    uploadTask.events.listen((event) {
-      progress = event.snapshot.bytesTransferred.toDouble() /
-          event.snapshot.totalByteCount.toDouble();
+
+    uploadTask.snapshotEvents.listen((snapshot) {
+      progress =
+          snapshot.bytesTransferred.toDouble() / snapshot.totalBytes.toDouble();
       notifyListeners();
     }).onError((error) {
       // do something to handle error
     });
-    await uploadTask.onComplete;
+    await uploadTask;
     print('File Uploaded');
     String url = await storageReference.getDownloadURL();
 

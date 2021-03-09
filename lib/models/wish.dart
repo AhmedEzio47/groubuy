@@ -10,10 +10,10 @@ class Wish {
 
   factory Wish.fromDoc(DocumentSnapshot doc) {
     return Wish(
-      id: doc.documentID,
-      productId: doc['product_id'],
-      subscribers: doc['subscribers'],
-      available: doc['available'],
+      id: doc.id,
+      productId: doc.data()['product_id'],
+      subscribers: doc.data()['subscribers'],
+      available: doc.data()['available'],
     );
   }
 }

@@ -252,10 +252,10 @@ class _SellerHomePageState extends State<SellerHomePage> {
                   await DatabaseService.getProductsByCategory(category.name);
               for (Product product in products) {
                 await productsRef
-                    .document(product.id)
-                    .updateData({'category': _categoryController.text});
+                    .doc(product.id)
+                    .update({'category': _categoryController.text});
               }
-              await categoriesRef.document(category.id).updateData({
+              await categoriesRef.doc(category.id).update({
                 'name': _categoryController.text,
               });
               AppUtil.showToast('Name Updated');
