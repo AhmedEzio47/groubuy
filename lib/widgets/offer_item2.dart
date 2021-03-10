@@ -46,7 +46,7 @@ class _OfferItem2State extends State<OfferItem2> {
         child: Column(
           children: [
             CachedImage(
-              height: Sizes().setHeight(context, .15),
+              height: Sizes().setHeight(context, .13),
               width: Sizes().setWidth(context, .2),
               fit: BoxFit.contain,
               imageUrl: _product?.images == null ? null : _product?.images[0],

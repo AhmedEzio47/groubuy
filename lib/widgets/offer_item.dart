@@ -80,7 +80,8 @@ class _OfferItemState extends State<OfferItem> {
             progressColor: MyColors.primaryColor,
             backgroundColor: Colors.white,
             percent: widget.offer.subscribers.toDouble() /
-                widget.offer.minAmount.toDouble(),
+                widget.offer.minAmount.toDouble() <=1?widget.offer.subscribers.toDouble() /
+                widget.offer.minAmount.toDouble():1,
           ),
           SizedBox(
             height: 5,

@@ -45,9 +45,9 @@ class _ProductItemState extends State<ProductItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              widget.showSlideShow
-                  ? CarouselSlider.builder(
-                      itemCount: widget.product?.images?.length,
+              widget.product?.images != null ?widget.showSlideShow
+                  ?  CarouselSlider.builder(
+                      itemCount: widget.product?.images?.length??0,
                       itemBuilder: (context, index) {
                         return CachedImage(
                           fit: BoxFit.fitHeight,
@@ -78,7 +78,7 @@ class _ProductItemState extends State<ProductItem> {
                       imageShape: BoxShape.rectangle,
                       imageUrl: widget.product?.images[0],
                       defaultAssetImage: Strings.default_product_image,
-                    ),
+                    ):Container(),
               SizedBox(
                 height: 5,
               ),

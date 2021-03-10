@@ -8,6 +8,6 @@ final offersRef = firestore.collection('offers');
 enum UserTypes { SELLER, BUYER }
 
 class Constants {
-  static String currentUserId;
+  static String currentUserId = 'Groubuy admin';
   static UserTypes userType = UserTypes.BUYER;
 }

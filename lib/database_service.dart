@@ -109,4 +109,14 @@ class DatabaseService {
         offersSnapshot.docs.map((doc) => Offer.fromDoc(doc)).toList();
     return offers;
   }
+
+  static subscribeOffer(String id) async{
+    await offersRef.doc(id).update({'subscribers':FieldValue.increment(1)});
+    await offersRef.doc(id).collection('subscribers').add({'subscriber': Constants.currentUserId, 'timestamp':FieldValue.serverTimestamp()});
+  }
+
+  static getOfferById(String id) async{
+    DocumentSnapshot documentSnapshot = await offersRef.doc(id).get();
+    return Offer.fromDoc(documentSnapshot);
+  }
 }
