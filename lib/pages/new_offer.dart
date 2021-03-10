@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:groubuy/app_util.dart';
 import 'package:groubuy/constants/colors.dart';
-import 'package:groubuy/constants/constants.dart';
 import 'package:groubuy/custom_modal.dart';
-import 'package:groubuy/database_service.dart';
-import 'package:random_string/random_string.dart';
+import 'package:groubuy/view_models/offer_vm.dart';
 
 class NewOffer extends StatefulWidget {
   final String productId;
@@ -25,7 +22,7 @@ class _NewOfferState extends State<NewOffer> {
   bool _isAvailable = true;
 
   DateTime _expireDate;
-
+  OfferVM _offerVM = OfferVM();
   @override
   void initState() {
     super.initState();
@@ -147,7 +144,16 @@ class _NewOfferState extends State<NewOffer> {
                   ),
                   RaisedButton(
                     color: Colors.blue,
-                    onPressed: _submit,
+                    onPressed: () async {
+                      await _offerVM.submit(
+                          widget.productId,
+                          _minAmountController.text,
+                          _priceController.text,
+                          _discountController.text,
+                          _isAvailable,
+                          _expireDate);
+                      Navigator.of(context).pop();
+                    },
                     child: Text(
                       'Submit',
                       style: TextStyle(color: Colors.white),
@@ -177,30 +183,5 @@ class _NewOfferState extends State<NewOffer> {
         decoration: InputDecoration(hintText: hint),
       ),
     );
-  }
-
-  void _submit() async {
-    if (_minAmountController.text == '') {
-      AppUtil.showToast('Please insert an amount');
-      return;
-    }
-    if (_discountController.text == '') {
-      AppUtil.showToast('Please insert a discount');
-      return;
-    }
-    String id = randomAlphaNumeric(20);
-
-    await DatabaseService.addOffer(
-        id,
-        widget.productId,
-        Constants.currentUserId,
-        int.parse(_minAmountController.text),
-        _priceController.text,
-        double.parse(_discountController.text),
-        0,
-        _isAvailable,
-        _expireDate);
-    AppUtil.showToast('Submitted');
-    Navigator.of(context).pop();
   }
 }

@@ -4,10 +4,10 @@ import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/constants.dart';
 import 'package:groubuy/constants/sizes.dart';
 import 'package:groubuy/custom_modal.dart';
-import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/category.dart';
 import 'package:groubuy/models/product.dart';
 import 'package:groubuy/pages/product_page.dart';
+import 'package:groubuy/services/database_service.dart';
 import 'package:groubuy/widgets/capsule_button.dart';
 import 'package:groubuy/widgets/drawer.dart';
 import 'package:groubuy/widgets/product_item.dart';
@@ -75,11 +75,14 @@ class _SellerHomePageState extends State<SellerHomePage> {
             Constants.userType == UserTypes.SELLER ? 'GrouBuy' : 'Products'),
       ),
       floatingActionButton: Constants.userType == UserTypes.SELLER
-          ? CapsuleButton(
-              color: MyColors.primaryColor,
-              text: '+ Add Product',
-              textColor: MyColors.textLightColor,
-              onPressed: _goToNewProductPage,
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 100),
+              child: CapsuleButton(
+                color: MyColors.primaryColor,
+                text: '+ Add Product',
+                textColor: MyColors.textLightColor,
+                onPressed: _goToNewProductPage,
+              ),
             )
           : Container(),
       body: ListView.builder(

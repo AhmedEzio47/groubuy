@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/sizes.dart';
 import 'package:groubuy/constants/strings.dart';
-import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/offer.dart';
 import 'package:groubuy/models/product.dart';
 import 'package:groubuy/pages/offer_page.dart';
+import 'package:groubuy/services/database_service.dart';
 import 'package:groubuy/widgets/cached_image.dart';
 
 class OfferItem2 extends StatefulWidget {

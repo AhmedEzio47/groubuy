@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:groubuy/app_util.dart';
+import 'package:groubuy/constants/constants.dart';
+import 'package:groubuy/models/category.dart';
 import 'package:groubuy/models/offer.dart';
-
-import 'constants/constants.dart';
-import 'models/category.dart';
-import 'models/product.dart';
+import 'package:groubuy/models/product.dart';
 
 class DatabaseService {
   static addProduct(String id, String name, String desc, String brand,
@@ -110,13 +109,25 @@ class DatabaseService {
     return offers;
   }
 
-  static subscribeOffer(String id) async{
-    await offersRef.doc(id).update({'subscribers':FieldValue.increment(1)});
-    await offersRef.doc(id).collection('subscribers').add({'subscriber': Constants.currentUserId, 'timestamp':FieldValue.serverTimestamp()});
+  static subscribeOffer(String id) async {
+    await offersRef.doc(id).update({'subscribers': FieldValue.increment(1)});
+    await offersRef.doc(id).collection('subscribers').add({
+      'subscriber': Constants.currentUserId,
+      'timestamp': FieldValue.serverTimestamp()
+    });
   }
 
-  static getOfferById(String id) async{
+  static getOfferById(String id) async {
     DocumentSnapshot documentSnapshot = await offersRef.doc(id).get();
     return Offer.fromDoc(documentSnapshot);
+  }
+
+  static Future<bool> isSubscriber(String id) async {
+    QuerySnapshot querySnapshot = await offersRef
+        .doc(id)
+        .collection('subscribers')
+        .where('subscriber', isEqualTo: Constants.currentUserId)
+        .get();
+    return querySnapshot.size != 0;
   }
 }

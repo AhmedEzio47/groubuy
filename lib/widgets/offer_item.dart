@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:groubuy/constants/colors.dart';
-import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/offer.dart';
 import 'package:groubuy/models/product.dart';
+import 'package:groubuy/services/database_service.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OfferItem extends StatefulWidget {
@@ -80,8 +80,11 @@ class _OfferItemState extends State<OfferItem> {
             progressColor: MyColors.primaryColor,
             backgroundColor: Colors.white,
             percent: widget.offer.subscribers.toDouble() /
-                widget.offer.minAmount.toDouble() <=1?widget.offer.subscribers.toDouble() /
-                widget.offer.minAmount.toDouble():1,
+                        widget.offer.minAmount.toDouble() <=
+                    1
+                ? widget.offer.subscribers.toDouble() /
+                    widget.offer.minAmount.toDouble()
+                : 1,
           ),
           SizedBox(
             height: 5,

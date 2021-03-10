@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/constants.dart';
-import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/product.dart';
-import 'package:groubuy/view_models/product_offers_vm.dart';
+import 'package:groubuy/services/database_service.dart';
+import 'package:groubuy/view_models/product_vm.dart';
 import 'package:groubuy/widgets/capsule_button.dart';
 import 'package:groubuy/widgets/offer_item.dart';
 import 'package:groubuy/widgets/product_item.dart';
@@ -22,11 +22,11 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
-    viewModel = ProductOffersVM(widget.product);
+    viewModel = ProductVM(product: widget.product);
     super.initState();
   }
 
-  ProductOffersVM viewModel;
+  ProductVM viewModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,9 +41,9 @@ class _ProductPageState extends State<ProductPage> {
             product: widget.product,
           ),
           Expanded(
-            child: ChangeNotifierProvider<ProductOffersVM>(
+            child: ChangeNotifierProvider<ProductVM>(
               create: (context) => viewModel,
-              child: Consumer<ProductOffersVM>(
+              child: Consumer<ProductVM>(
                   builder: (context, model, child) => GridView.builder(
                         scrollDirection: Axis.vertical,
                         itemCount: viewModel.offers.length,

@@ -15,7 +15,7 @@ class _AppPageState extends State<AppPage> {
   int _index = 0;
   @override
   initState() {
-    _body = Constants.userType == UserTypes.BUYER
+    _body = Constants.userType == UserTypes.SELLER
         ? UserHomePage()
         : SellerHomePage();
     super.initState();

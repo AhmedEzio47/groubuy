@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:groubuy/models/offer.dart';
+import 'package:groubuy/services/database_service.dart';
 import 'package:groubuy/widgets/drawer.dart';
 import 'package:groubuy/widgets/offer_item2.dart';
-
-import '../database_service.dart';
 
 class UserHomePage extends StatefulWidget {
   @override

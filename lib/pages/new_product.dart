@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:groubuy/app_util.dart';
 import 'package:groubuy/custom_modal.dart';
-import 'package:groubuy/database_service.dart';
 import 'package:groubuy/models/category.dart';
-import 'package:path/path.dart' as path;
-import 'package:random_string/random_string.dart';
+import 'package:groubuy/services/database_service.dart';
+import 'package:groubuy/view_models/product_vm.dart';
 
 class NewProduct extends StatefulWidget {
   @override
@@ -42,6 +41,8 @@ class _NewProductState extends State<NewProduct> {
       });
     });
   }
+
+  ProductVM _productVM = ProductVM();
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +155,14 @@ class _NewProductState extends State<NewProduct> {
                   ),
                   RaisedButton(
                     color: Colors.blue,
-                    onPressed: _submit,
+                    onPressed: () async {
+                      await _productVM.submit(
+                          _nameController.text,
+                          _descController.text,
+                          _brandController.text,
+                          _chosenCat,
+                          _images);
+                    },
                     child: Text(
                       'Submit',
                       style: TextStyle(color: Colors.white),
@@ -184,34 +192,5 @@ class _NewProductState extends State<NewProduct> {
         decoration: InputDecoration(hintText: hint),
       ),
     );
-  }
-
-  void _submit() async {
-    if (_nameController.text == '') {
-      AppUtil.showToast('Please choose a name');
-      return;
-    }
-    if (_descController.text == '') {
-      AppUtil.showToast('Please write a description');
-      return;
-    }
-    if (_brandController.text == '') {
-      AppUtil.showToast('Please choose a brand');
-      return;
-    }
-    if (_chosenCat == null) {
-      AppUtil.showToast('Please choose a category');
-      return;
-    }
-    String id = randomAlphaNumeric(20);
-    for (File image in _images) {
-      String url = await AppUtil().uploadFile(
-          image, context, 'products/$id/${path.basename(image.path)}');
-      _imagesUrls.add(url);
-    }
-    await DatabaseService.addProduct(id, _nameController.text,
-        _descController.text, _brandController.text, _chosenCat, _imagesUrls);
-    AppUtil.showToast('Submitted');
-    Navigator.of(context).pop();
   }
 }

@@ -23,8 +23,7 @@ class AppUtil with ChangeNotifier {
 
   static double progress;
 
-  Future<String> uploadFile(
-      File file, BuildContext context, String path) async {
+  Future<String> uploadFile(File file, String path) async {
     if (file == null) return '';
 
     Reference storageReference = FirebaseStorage.instance.ref().child(path);
