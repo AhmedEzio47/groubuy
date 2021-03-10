@@ -15,7 +15,7 @@ class _AppPageState extends State<AppPage> {
   int _index = 0;
   @override
   initState() {
-    _body = Constants.userType == UserTypes.SELLER
+    _body = Constants.userType == UserTypes.BUYER
         ? UserHomePage()
         : SellerHomePage();
     super.initState();
@@ -25,36 +25,33 @@ class _AppPageState extends State<AppPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _body,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: CustomNavigationBar(
-          backgroundColor: Colors.grey.shade300,
-          currentIndex: _index,
-          onTap: (index) {
-            switch (index) {
-              case 0:
-                setState(() {
-                  _index = index;
-                  _body = Constants.userType == UserTypes.BUYER
-                      ? UserHomePage()
-                      : SellerHomePage();
-                });
-                break;
-              case 1:
-                setState(() {
-                  _index = index;
-                  _body = ProfilePage();
-                });
-                break;
-            }
-          },
-          items: [
-            CustomNavigationBarItem(
-                icon: Icon(Icons.home), title: Text('Home')),
-            CustomNavigationBarItem(
-                icon: Icon(Icons.person), title: Text('Profile')),
-          ],
-        ),
+      bottomNavigationBar: CustomNavigationBar(
+        backgroundColor: Colors.grey.shade300,
+        currentIndex: _index,
+        isFloating: false,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              setState(() {
+                _index = index;
+                _body = Constants.userType == UserTypes.BUYER
+                    ? UserHomePage()
+                    : SellerHomePage();
+              });
+              break;
+            case 1:
+              setState(() {
+                _index = index;
+                _body = ProfilePage();
+              });
+              break;
+          }
+        },
+        items: [
+          CustomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+          CustomNavigationBarItem(
+              icon: Icon(Icons.person), title: Text('Profile')),
+        ],
       ),
     );
   }

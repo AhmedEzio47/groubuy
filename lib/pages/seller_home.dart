@@ -75,14 +75,11 @@ class _SellerHomePageState extends State<SellerHomePage> {
             Constants.userType == UserTypes.SELLER ? 'GrouBuy' : 'Products'),
       ),
       floatingActionButton: Constants.userType == UserTypes.SELLER
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 100),
-              child: CapsuleButton(
-                color: MyColors.primaryColor,
-                text: '+ Add Product',
-                textColor: MyColors.textLightColor,
-                onPressed: _goToNewProductPage,
-              ),
+          ? CapsuleButton(
+              color: MyColors.primaryColor,
+              text: '+ Add Product',
+              textColor: MyColors.textLightColor,
+              onPressed: _goToNewProductPage,
             )
           : Container(),
       body: ListView.builder(

@@ -4,6 +4,7 @@ import 'package:groubuy/constants/constants.dart';
 import 'package:groubuy/models/category.dart';
 import 'package:groubuy/models/offer.dart';
 import 'package:groubuy/models/product.dart';
+import 'package:groubuy/models/user_model.dart';
 
 class DatabaseService {
   static addProduct(String id, String name, String desc, String brand,
@@ -129,5 +130,30 @@ class DatabaseService {
         .where('subscriber', isEqualTo: Constants.currentUserId)
         .get();
     return querySnapshot.size != 0;
+  }
+
+  static Future<User> getUserWithId(String userId) async {
+    DocumentSnapshot userDocSnapshot = await usersRef?.doc(userId)?.get();
+    if (userDocSnapshot.exists) {
+      return User.fromDoc(userDocSnapshot);
+    }
+    return User();
+  }
+
+  static addUserToDatabase(
+      String id, String email, String name, String username) async {
+    List search = searchList(name);
+    Map<String, dynamic> userMap = {
+      'name': name ?? 'John Doe',
+      'username': username,
+      'email': email,
+      'description': 'Write something about yourself',
+      'notificationsNumber': 0,
+      'followers': 0,
+      'following': 0,
+      'search': search
+    };
+
+    await usersRef.doc(id).set(userMap);
   }
 }

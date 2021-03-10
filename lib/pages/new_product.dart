@@ -162,6 +162,7 @@ class _NewProductState extends State<NewProduct> {
                           _brandController.text,
                           _chosenCat,
                           _images);
+                      Navigator.of(context).pop();
                     },
                     child: Text(
                       'Submit',

@@ -19,15 +19,24 @@ dependencies:
   carousel_slider: ^2.3.1
   percent_indicator: ^2.1.8
   custom_navigation_bar: ^0.7.1
+  flutter_spinkit: ^4.1.2
   #Database
   cloud_firestore:
   firebase_core: ^0.7.0
   firebase_storage: ^7.0.0
+  #Auth
+  apple_sign_in: ^0.1.0
+  firebase_auth:
+  flutter_login_facebook: ^0.4.0+1
+  google_sign_in: ^4.5.4
   #Misc
   file_picker: 2.0.0
   random_string: ^2.0.1
   get_it: ^3.0.1
   provider: ^4.0.1
+  shared_preferences: ^0.5.6+3
+  webview_flutter: 1.0.7
+
 
 dev_dependencies:
   flutter_test:

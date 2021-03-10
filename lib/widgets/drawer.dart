@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:groubuy/constants/colors.dart';
+import 'package:groubuy/constants/constants.dart';
 import 'package:groubuy/constants/strings.dart';
 import 'package:groubuy/pages/new_product.dart';
 import 'package:groubuy/pages/seller_home.dart';
+import 'package:groubuy/pages/welcome_page.dart';
 
 class BuildDrawer extends StatefulWidget {
   @override
@@ -77,6 +79,41 @@ class _BuildDrawerState extends State<BuildDrawer> {
               color: MyColors.primaryColor,
             ),
           ),
+          authStatus == AuthStatus.LOGGED_IN
+              ? ListTile(
+                  onTap: () async {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                      return WelcomePage();
+                    }));
+                  },
+                  title: Text(
+                    'Sign Out',
+                    style: TextStyle(
+                      color: MyColors.primaryColor,
+                    ),
+                  ),
+                  leading: Icon(
+                    Icons.power_settings_new,
+                    color: MyColors.primaryColor,
+                  ),
+                )
+              : ListTile(
+                  onTap: () async {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                      return WelcomePage();
+                    }));
+                  },
+                  title: Text(
+                    'Sign In',
+                    style: TextStyle(
+                      color: MyColors.primaryColor,
+                    ),
+                  ),
+                  leading: Icon(
+                    Icons.power_settings_new,
+                    color: MyColors.primaryColor,
+                  ),
+                ),
         ],
       ),
     );
