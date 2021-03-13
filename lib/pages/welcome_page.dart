@@ -13,6 +13,7 @@ import 'package:groubuy/constants/colors.dart';
 import 'package:groubuy/constants/constants.dart';
 import 'package:groubuy/constants/strings.dart';
 import 'package:groubuy/models/user_model.dart' as user_model;
+import 'package:groubuy/pages/app_page.dart';
 import 'package:groubuy/pages/webview_screen.dart';
 import 'package:groubuy/services/apple_signIn_available.dart';
 import 'package:groubuy/services/auth.dart';
@@ -468,7 +469,11 @@ class _WelcomePageState extends State<WelcomePage> {
                                                 // }
                                                 ///saveToken();
                                                 Navigator.of(context)
-                                                    .pushReplacementNamed('/');
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder: (_) {
+                                                  return AppPage();
+                                                }));
                                               }
                                             },
                                             padding: EdgeInsets.only(
@@ -572,7 +577,11 @@ class _WelcomePageState extends State<WelcomePage> {
                                                 // }
                                                 ///saveToken();
                                                 Navigator.of(context)
-                                                    .pushReplacementNamed('/');
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder: (_) {
+                                                  return AppPage();
+                                                }));
                                               }
                                             },
                                             padding: EdgeInsets.only(
@@ -646,7 +655,10 @@ class _WelcomePageState extends State<WelcomePage> {
                               }
 
                               ///saveToken();
-                              Navigator.of(context).pushReplacementNamed('/');
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (_) {
+                                return AppPage();
+                              }));
                             }
                           },
                         ),
@@ -1143,7 +1155,7 @@ class _WelcomePageState extends State<WelcomePage> {
         _setFocusNode(myFocusNodeName);
         return;
       }
-
+      SharedPreferences.setMockInitialValues({});
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('name', _nameController.text);
       Navigator.of(context).pop();
@@ -1182,7 +1194,9 @@ class _WelcomePageState extends State<WelcomePage> {
 
         //TODO saveToken();
 
-        Navigator.of(context).pushReplacementNamed('/');
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return AppPage();
+        }));
       } else if (!user.emailVerified) {
         Navigator.of(context).pop();
         AppUtil.showAlertDialog(
@@ -1201,7 +1215,9 @@ class _WelcomePageState extends State<WelcomePage> {
       } else {
         ///saveToken(); // We don't want to saveToken for non-verified users
         //AppUtil.showToast('Logged In!');
-        Navigator.of(context).pushReplacementNamed('/');
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return AppPage();
+        }));
       }
     } catch (e) {
       // Email or Password Incorrect
