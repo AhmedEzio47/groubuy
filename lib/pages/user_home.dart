@@ -14,7 +14,7 @@ class _UserHomePageState extends State<UserHomePage> {
 
   @override
   void initState() {
-    getOffers();
+    //getOffers();
     super.initState();
   }
 
@@ -24,6 +24,7 @@ class _UserHomePageState extends State<UserHomePage> {
     setState(() {
       _offers = offers;
     });
+    return offers;
   }
 
   @override
@@ -37,17 +38,34 @@ class _UserHomePageState extends State<UserHomePage> {
             onTap: () => _scaffoldKey.currentState.openDrawer()),
         title: Text('GrouBuy'),
       ),
-      body: GridView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: _offers.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 1.2,
-          crossAxisCount: 2,
-        ),
-        itemBuilder: (context, index) {
-          return OfferItem2(
-            offer: _offers[index],
-          );
+      body: FutureBuilder(
+        future: getOffers(),
+        builder: (context, snapshot) {
+          return snapshot.connectionState == ConnectionState.done
+              ? GridView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: _offers.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 1.2,
+                    crossAxisCount: 2,
+                  ),
+                  itemBuilder: (context, index) {
+                    return OfferItem2(
+                      offer: _offers[index],
+                    );
+                  },
+                )
+              : GridView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: 10,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 1.2,
+                    crossAxisCount: 2,
+                  ),
+                  itemBuilder: (context, index) {
+                    return OfferItem2(offer: Offer(), isLoading: true);
+                  },
+                );
         },
       ),
     );

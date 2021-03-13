@@ -17,7 +17,7 @@ class Constants {
   static bool isFacebookOrGoogleUser;
 
   ///change user type
-  static UserTypes userType = UserTypes.SELLER;
+  static UserTypes userType = UserTypes.BUYER;
 
   static String language = 'en';
 }
