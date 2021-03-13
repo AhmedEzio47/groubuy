@@ -36,9 +36,11 @@ class _BuildDrawerState extends State<BuildDrawer> {
                   child: CircleAvatar(
                     radius: 50.0,
                     backgroundColor: Theme.of(context).primaryColor,
-                    backgroundImage: null != null
-                        ? CachedNetworkImageProvider('')
-                        : AssetImage(Strings.default_product_image),
+                    backgroundImage:
+                        Constants.currentUser?.profileImageUrl != null
+                            ? CachedNetworkImageProvider(
+                                Constants.currentUser?.profileImageUrl)
+                            : AssetImage(Strings.default_product_image),
                   ),
                 ),
                 Row(
@@ -47,9 +49,11 @@ class _BuildDrawerState extends State<BuildDrawer> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'Username' ?? '',
+                        Constants.currentUser?.name ?? '',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                            color: MyColors.textDarkColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
                       ),
                     ),
                     //Icon(Icons.arrow_drop_down)

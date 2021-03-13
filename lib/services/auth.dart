@@ -149,7 +149,7 @@ class Auth implements BaseAuth {
       return user.uid;
     } catch (e) {
       print("An error occurred while trying to send verification email");
-      print(e.message);
+      print('Email verification:' + e.toString());
     }
   }
 
