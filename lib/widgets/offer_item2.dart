@@ -23,15 +23,19 @@ class _OfferItem2State extends State<OfferItem2> {
   getOfferProduct() async {
     Product product =
         await DatabaseService.getProductById(widget.offer.productId);
-    setState(() {
-      _product = product;
-    });
+    _product = product;
+    // setState(() {
+    //
+    // });
   }
 
   @override
   void initState() {
-    getOfferProduct();
     super.initState();
+    //print('offer id ${widget.offer.id}');
+    if (widget.offer.id != null) {
+      getOfferProduct();
+    }
   }
 
   @override
@@ -66,8 +70,7 @@ class _OfferItem2State extends State<OfferItem2> {
                     height: Sizes().setHeight(context, .13),
                     width: Sizes().setWidth(context, .2),
                     fit: BoxFit.contain,
-                    imageUrl:
-                        _product?.images == null ? null : _product?.images[0],
+                    imageUrl: _product?.images[0],
                     defaultAssetImage: Strings.default_product_image,
                     imageShape: BoxShape.rectangle,
                   ),

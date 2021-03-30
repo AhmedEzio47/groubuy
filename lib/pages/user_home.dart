@@ -21,9 +21,7 @@ class _UserHomePageState extends State<UserHomePage> {
   List<Offer> _offers = [];
   getOffers() async {
     List<Offer> offers = await DatabaseService.getAvailableOffers();
-    setState(() {
-      _offers = offers;
-    });
+    _offers = offers;
     return offers;
   }
 
@@ -50,8 +48,11 @@ class _UserHomePageState extends State<UserHomePage> {
                     crossAxisCount: 2,
                   ),
                   itemBuilder: (context, index) {
+                    //print(_offers[index].id);
                     return OfferItem2(
+                      key: ValueKey('Done'),
                       offer: _offers[index],
+                      isLoading: false,
                     );
                   },
                 )
@@ -63,7 +64,11 @@ class _UserHomePageState extends State<UserHomePage> {
                     crossAxisCount: 2,
                   ),
                   itemBuilder: (context, index) {
-                    return OfferItem2(offer: Offer(), isLoading: true);
+                    return OfferItem2(
+                      offer: Offer(),
+                      isLoading: true,
+                      key: ValueKey('Loading'),
+                    );
                   },
                 );
         },
